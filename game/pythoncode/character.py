@@ -5,6 +5,8 @@ import resources
 
 class Character:
     def __init__(self):
+        self.name = "Anon"
+
         self.physique = 3
         self.agility = 3
         self.spirit = 3

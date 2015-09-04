@@ -561,11 +561,26 @@ init -2:
 
 
 screen scr_map(game):
-    textbutton "Выход!":
-        action [Function(game.set_state, GameState.STOPPED), Return()]
+    # Информация сверху
+    frame:
+        xpos 0
+        ypos 0
+        align(0.0, 0.0)
+        has hbox:
+            spacing 10
+            $ res = game.player_character.resources
+            text "food: %s" % res.food
+            text "fuel: %s" % res.fuel
+            text "drugs: %s" % res.drugs
+            text "arms: %s" % res.arms
+            text "tools: %s" % res.tools
+            text "material: %s" % res.material
     # Список локаций слева
     frame:
-        yalign .1
+        xpos 0
+        ypos 40
+        xsize 300
+        align(0.0, 0.0)
         has vbox
         $ i = 0
         for location in game.locations_model.locations:
@@ -575,11 +590,26 @@ screen scr_map(game):
                 action Function(game.locations_model.set_selected_location_index, i)
             $ i = i + 1
     # Информация посередине
-    #TODO
-    # Список действий справа        
     frame:
-        xalign .70
-        yalign .1
+        xpos 305
+        ypos 40
+        xsize 190
+        align(0.0, 0.0)
+        has vbox
+        $ char = game.player_character
+        text "Name: %s" % char.name
+        text "physique: %s" % char.physique
+        text "agility: %s" % char.agility
+        text "spirit: %s" % char.spirit
+        text "mind: %s" % char.mind
+        text "AP: %s" % char.action_points
+        text "Job: %s" % game.get_character_job(char).name
+    # Список действий справа
+    frame:
+        xpos 500
+        ypos 40
+        xsize 300
+        align(0.0, 0.0)
         has vbox
         $ loc_index = game.locations_model.selected_location_index
         $ actions = game.locations_model.get_location_actions(game.player_character, loc_index)
@@ -588,3 +618,7 @@ screen scr_map(game):
                 action Function(action.do_action, game.player_character, game, loc_index)
     # Текст с описанием внизу того на что наведен курсор мыши
     #TODO
+    
+    textbutton "Выход!":
+        align(0.95, 0.0)
+        action [Function(game.set_state, GameState.STOPPED), Return()]

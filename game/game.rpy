@@ -4,6 +4,7 @@ init -1 python:
     import renpy.exports as renpy
     import renpy.store as store
     import pythoncode.character as character
+    import pythoncode.jobs as jobs
     
     #from enum import Enum
     #class GameState(Enum): Енумов в ренпи не завезли!
@@ -36,3 +37,8 @@ init -1 python:
             
         def get_state(self):
             return self.state
+            
+        def get_character_job(self, character):
+            if character.job_location_index is None:
+                return jobs.JobIdle()
+            return self.locations_model.locations[character.job_location_index].jobs[character.job_num]

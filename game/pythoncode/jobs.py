@@ -12,6 +12,17 @@ class _JobBaseClass(object):
         raise Exception('do_job not implemented for: %s' % self.name)
 
 
+# Работа ничегонеделания. Типа паттерн NULL Object или как-то так зовут
+# Хотя возможно при отсутствии работы всё таки стоит возвращать None
+# TODO подумать когда придет время
+class JobIdle(_JobBaseClass):
+    def __init__(self):
+        super(JobIdle, self).__init__("Idle", "TODO")
+
+    def do_job(self, character):
+        return None
+
+
 class JobFoodThief(_JobBaseClass):
     def __init__(self):
         super(JobFoodThief, self).__init__("Stealing food", "TODO")
