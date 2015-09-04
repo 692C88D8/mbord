@@ -1,0 +1,38 @@
+﻿# coding=utf-8
+
+init -1 python:
+    import renpy.exports as renpy
+    import renpy.store as store
+    import pythoncode.character as character
+    
+    #from enum import Enum
+    #class GameState(Enum): Енумов в ренпи не завезли!
+    class GameState:
+        STOPPED = 1
+        BORDER_MAP = 2
+    
+    class Game(store.object):
+        
+        def __init__(self):
+            self.locations_model = LocationsModel()
+            self.player_character = character.Character()
+            self.state = GameState.STOPPED
+            
+        def get_location_name_to_display(self, location_index):
+            name = self.locations_model.locations[location_index].name
+            if location_index == self.locations_model.selected_location_index:
+                name = ">" + name
+            loc_suffix = ""
+            if location_index == self.player_character.camp_location_index:
+                loc_suffix = "(c)"
+            if location_index == self.player_character.job_location_index:
+                loc_suffix += "(j)"
+            if len(loc_suffix) > 0:
+                name = name + " " + loc_suffix
+            return name
+            
+        def set_state(self, state):
+            self.state = state
+            
+        def get_state(self):
+            return self.state
