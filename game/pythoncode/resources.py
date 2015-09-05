@@ -47,19 +47,28 @@ class Resources:
 
     def set_arms(self, value):
         self.quantities[Resources.__arms_index] = value
-        
+
+    def add_arms(self, value):
+        self.quantities[Resources.__arms_index] += value
+
     def get_tools(self):
         return self.quantities[Resources.__tools_index]
 
     def set_tools(self, value):
         self.quantities[Resources.__tools_index] = value
-        
+
+    def add_tools(self, value):
+        self.quantities[Resources.__tools_index] += value
+
     def get_material(self):
         return self.quantities[Resources.__material_index]
 
     def set_material(self, value):
         self.quantities[Resources.__material_index] = value
-            
+
+    def add_material(self, value):
+        self.quantities[Resources.__material_index] += value
+
     def _set_all(self, value):
         for i in xrange(0, len(self.quantities)):
             self.quantities[i] = value
