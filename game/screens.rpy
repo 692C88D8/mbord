@@ -604,6 +604,8 @@ screen scr_map(game):
         text "mind: %s" % char.mind
         text "AP: %s" % char.action_points
         text "Job: %s" % game.get_character_job(char).name
+        textbutton "Next turn":
+            action Function(game.on_new_turn)
     # Список действий справа
     frame:
         xpos 500
@@ -620,5 +622,5 @@ screen scr_map(game):
     #TODO
     
     textbutton "Выход!":
-        align(0.95, 0.0)
+        align(0.97, 0.0)
         action [Function(game.set_state, GameState.STOPPED), Return()]

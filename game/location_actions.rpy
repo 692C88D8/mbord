@@ -10,6 +10,12 @@ init -1 python:
 
         def do_action(self, character, game, locaton_index):
             raise Exception('do_action not implemented for: %s' % self.name)
+        
+        def __common_action_result(self, character, game, locaton_index):
+            if self.spend_action_point:
+                character.action_points = character.action_points - 1
+            game.new_turn_if_need()
+            return True
 
         @property
         def name(self):
@@ -29,7 +35,7 @@ init -1 python:
             if not game.locations_model.locations[locaton_index].can_have_camp:
                 raise Exception('WTF in move camp action.')
             character.camp_location_index = locaton_index
-            return True
+            return self.__common_action_result(character, game, locaton_index)
 
             
     class LocationActionExplore(_LocationActionBaseClass):
@@ -39,7 +45,7 @@ init -1 python:
         def do_action(self, character, game, locaton_index):
             game.locations_model.locations[locaton_index].explored = True
             game.locations_model.add_random_closed_location()
-            return True
+            return self.__common_action_result(character, game, locaton_index)
             
 #TODO Подумать: можно сделать типа классового метода CreateJobActionsList(jobs[], locaton_index)
 #и пришлепывать этот лист вместо одиночного поочередного создания
@@ -54,7 +60,7 @@ init -1 python:
                 raise Exception('WTF in change job. It should not be available')
             character.job_location_index = locaton_index
             character.job_num = self.job_num
-            return True
+            return self.__common_action_result(character, game, locaton_index)
             
         @property
         def name(self):
@@ -69,4 +75,5 @@ init -1 python:
 
         def do_action(self, character, game, locaton_index):
             raise Exception('TODO trade not implemented')
+            return self.__common_action_result(character, game, locaton_index)
     

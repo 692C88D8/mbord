@@ -42,3 +42,19 @@ init -1 python:
             if character.job_location_index is None:
                 return jobs.JobIdle()
             return self.locations_model.locations[character.job_location_index].jobs[character.job_num]
+            
+        def spend_player_action_point(self):
+            return self.state
+        
+        def new_turn_if_need(self):
+            if self.player_character.action_points <= 0 :
+                self.on_new_turn()
+            
+        def on_new_turn(self):
+            pchar = self.player_character
+            if pchar.action_points > 0 :
+                pchar.action_points = 0
+            pchar.resources.reset_all_to_zero()
+            job = self.get_character_job(pchar)
+            job.do_job(pchar)
+            pchar.restore_action_points()
