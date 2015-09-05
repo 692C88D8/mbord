@@ -6,6 +6,10 @@ import resources
 class Character:
     _AP_DEF = 2
 
+    STORAGE_NONE = 0
+    STORAGE_RENT = 1
+    STORAGE_FREE = 2
+
     def __init__(self):
         self.name = "Anon"
 
@@ -18,11 +22,38 @@ class Character:
 
         self.resources = resources.Resources()
 
+        self.__storage = Character.STORAGE_NONE
+
         # Хоть кампинг в стартовой локации запрещен, но будем считать что изначально он в нём.
         self.camp_location_index = 0
 
         self.job_location_index = None # номер локации с работой
         self.job_num = None # номер работы на локации
 
+    def set_storage(self, storage_type):
+        self.__storage = storage_type
+
+    def get_storage(self):
+        return self.__storage
+
     def restore_action_points(self):
         self.action_points += Character._AP_DEF
+
+    def pay_storage_rent(self):
+        res = self.resources.quantities
+        for i in xrange(0, len(res)):
+            if res[i] > 0:
+                payment = res[i] / 10
+                if payment < 1:
+                    payment = 1
+                res[i] = res[i] - payment
+
+    def on_new_turn(self, job):
+        if self.action_points > 0 :
+            self.action_points = 0
+        if self.__storage == Character.STORAGE_NONE:
+            self.resources.reset_all_to_zero()
+        elif self.__storage == Character.STORAGE_RENT:
+            self.pay_storage_rent()
+        job.do_job(self)
+        self.restore_action_points()

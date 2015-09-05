@@ -29,7 +29,7 @@ class JobFoodThief(_JobBaseClass):
 
     def do_job(self, character):
         if 0 == random.randint(0, 1):
-            character.resources.food += (character.mind + character.agility)
+            character.resources.set_food(character.resources.get_food() + character.mind + character.agility)
 
 
 class JobFoodBeggar(_JobBaseClass):
@@ -37,7 +37,7 @@ class JobFoodBeggar(_JobBaseClass):
         super(JobFoodBeggar, self).__init__("Begg for food", "TODO")
 
     def do_job(self, character):
-        character.resources.food += character.spirit
+        character.resources.set_food(character.resources.get_food() + character.spirit)
 
 
 class JobFoodWhore(_JobBaseClass):
@@ -45,7 +45,7 @@ class JobFoodWhore(_JobBaseClass):
         super(JobFoodWhore, self).__init__("Sex for food", "TODO")
 
     def do_job(self, character):
-        character.resources.food += character.agility
+        character.resources.set_food(character.resources.get_food() + character.agility)
 
 
 class JobScavenger(_JobBaseClass):
@@ -58,15 +58,15 @@ class JobScavenger(_JobBaseClass):
         # Сделаю тупо на if хорошо их не очень много
         rnd = random.randint(0, 4)
         if 0 == rnd:
-            character.resources.fuel += val
+            character.resources.set_fuel(character.resources.get_fuel() + val)
         elif 1 == rnd:
-            character.resources.drugs += val
+            character.resources.set_drugs(character.resources.get_drugs() + val)
         elif 2 == rnd:
-            character.resources.arms += val
+            character.resources.set_arms(character.resources.get_arms() + val)
         elif 3 == rnd:
-            character.resources.tools += val
+            character.resources.set_tools(character.resources.get_tools() + val)
         else:
-            character.resources.material += val
+            character.resources.set_material(character.resources.get_material() + val)
 
 
 class JobFuelExtractor(_JobBaseClass):
@@ -74,7 +74,7 @@ class JobFuelExtractor(_JobBaseClass):
         super(JobFuelExtractor, self).__init__("Fuel extraction", "TODO")
 
     def do_job(self, character):
-        character.resources.fuel += (character.agility + character.physique)
+        character.resources.set_fuel(character.resources.get_fuel() + character.agility + character.physique)
 
 
 class JobWoodGathering(_JobBaseClass):
@@ -82,7 +82,7 @@ class JobWoodGathering(_JobBaseClass):
         super(JobWoodGathering, self).__init__("Wood gathering", "TODO")
 
     def do_job(self, character):
-        character.resources.fuel += (character.agility + character.physique)
+        character.resources.set_fuel(character.resources.get_fuel() + character.agility + character.physique)
 
 
 class JobHerbalism(_JobBaseClass):
@@ -90,7 +90,7 @@ class JobHerbalism(_JobBaseClass):
         super(JobHerbalism, self).__init__("Herbalism", "TODO")
 
     def do_job(self, character):
-        character.resources.drugs += (character.agility + character.mind)
+        character.resources.set_drugs(character.resources.get_drugs() + character.agility + character.mind)
 
 
 class JobMarauder(_JobBaseClass):
@@ -98,7 +98,7 @@ class JobMarauder(_JobBaseClass):
         super(JobMarauder, self).__init__("Marauding", "TODO")
 
     def do_job(self, character):
-        character.resources.material += (character.agility + character.physique)
+        character.resources.set_material(character.resources.get_material() + character.agility + character.physique)
 
 
 class JobToolScavenger(_JobBaseClass):
@@ -106,7 +106,7 @@ class JobToolScavenger(_JobBaseClass):
         super(JobToolScavenger, self).__init__("Scavenging tools", "TODO")
 
     def do_job(self, character):
-        character.resources.tools += (character.agility + character.physique)
+        character.resources.set_tools(character.resources.get_tools() + character.agility + character.physique)
 
 
 class JobDemolisher(_JobBaseClass):
@@ -114,7 +114,7 @@ class JobDemolisher(_JobBaseClass):
         super(JobDemolisher, self).__init__("Demolishing", "TODO")
 
     def do_job(self, character):
-        character.resources.material += (character.agility + character.physique)
+        character.resources.set_material(character.resources.get_material() + character.agility + character.physique)
 
 
 class JobWeaponLooter(_JobBaseClass):
@@ -122,4 +122,4 @@ class JobWeaponLooter(_JobBaseClass):
         super(JobWeaponLooter, self).__init__("Looting", "TODO")
 
     def do_job(self, character):
-        character.resources.arms += (character.agility + character.physique)
+        character.resources.set_arms(character.resources.get_arms() + character.agility + character.physique)

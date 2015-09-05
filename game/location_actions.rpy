@@ -2,6 +2,8 @@
 
 init -1 python:
 
+    from pythoncode.character import Character as MB_Character # Character уже есть в RenPy
+    
     class _LocationActionBaseClass(object):
         def __init__(self, name, description, spend_action_point):
             self._name = name
@@ -77,3 +79,20 @@ init -1 python:
             raise Exception('TODO trade not implemented')
             return self.__common_action_result(character, game, locaton_index)
     
+            
+    class LocationActionRentStorage(_LocationActionBaseClass):
+        def __init__(self):
+            super(LocationActionRentStorage, self).__init__("Rent storage", "TODO", True)
+
+        def do_action(self, character, game, locaton_index):
+            character.set_storage(MB_Character.STORAGE_RENT)
+            return self.__common_action_result(character, game, locaton_index)
+            
+            
+    class LocationActionNoMoreRentStorage(_LocationActionBaseClass):
+        def __init__(self):
+            super(LocationActionNoMoreRentStorage, self).__init__("No more rent storage", "TODO", True)
+
+        def do_action(self, character, game, locaton_index):
+            character.set_storage(MB_Character.STORAGE_NONE)
+            return self.__common_action_result(character, game, locaton_index)

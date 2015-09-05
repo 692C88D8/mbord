@@ -569,12 +569,12 @@ screen scr_map(game):
         has hbox:
             spacing 10
             $ res = game.player_character.resources
-            text "food: %s" % res.food
-            text "fuel: %s" % res.fuel
-            text "drugs: %s" % res.drugs
-            text "arms: %s" % res.arms
-            text "tools: %s" % res.tools
-            text "material: %s" % res.material
+            text "food: %s" % res.get_food()
+            text "fuel: %s" % res.get_fuel()
+            text "drugs: %s" % res.get_drugs()
+            text "arms: %s" % res.get_arms()
+            text "tools: %s" % res.get_tools()
+            text "material: %s" % res.get_material()
     # Список локаций слева
     frame:
         xpos 0

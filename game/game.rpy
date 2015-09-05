@@ -52,9 +52,6 @@ init -1 python:
             
         def on_new_turn(self):
             pchar = self.player_character
-            if pchar.action_points > 0 :
-                pchar.action_points = 0
-            pchar.resources.reset_all_to_zero()
             job = self.get_character_job(pchar)
-            job.do_job(pchar)
-            pchar.restore_action_points()
+            pchar.on_new_turn(job)
+            

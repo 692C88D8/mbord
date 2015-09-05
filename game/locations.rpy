@@ -5,6 +5,7 @@ init -1 python:
     import random
 
     from pythoncode.jobs import *
+    from pythoncode.character import Character as MB_Character # Character уже есть в RenPy
     
     class _LocationBaseClass(object):
         def __init__(self, name, description, can_have_camp):
@@ -14,6 +15,9 @@ init -1 python:
             self.can_have_camp = can_have_camp
             self.jobs = []
 
+        def get_specific_actions(self, character):
+            return []
+            
         @property
         def name(self):
             if self.explored:
@@ -46,12 +50,20 @@ init -1 python:
         def __init__(self):
             super(LocationDepository, self).__init__("Depository", "TODO", True)
 
+        def get_specific_actions(self, character):
+            storage_type = character.get_storage()
+            if storage_type == MB_Character.STORAGE_NONE:
+                return [LocationActionRentStorage()]
+            if storage_type == MB_Character.STORAGE_RENT:
+                return [LocationActionNoMoreRentStorage()]
+            return []
 
     class LocationCharityMission(_LocationBaseClass):
         def __init__(self):
             super(LocationCharityMission, self).__init__("Charity Mission", "TODO", True)
             self.jobs = [JobFoodBeggar()]
 
+            
     class LocationOutpost(_LocationBaseClass):
         def __init__(self):
             super(LocationOutpost, self).__init__("Outpost", "TODO", True)
@@ -112,6 +124,7 @@ init -1 python:
             mist.can_have_camp = False
             # доступные локации. Сюда они постепенно переезжают из __closed_locations
             # при вызове _add_random_closed_location()
+            # TODO Ващет правильно было бы чтобы игрок знал какие локации для него открыты(__closed_locations убираем, а в персонажа добавляем словарь из индексов и состояния(0 открыто, 1 исследовано))
             self.locations = [mist]
             self.__closed_locations = [
                 LocationSlums(),
@@ -140,7 +153,7 @@ init -1 python:
             if not loc.explored:
                 return [LocationActionExplore()]
             
-            result = []
+            result = loc.get_specific_actions(character)
             if (character.camp_location_index != location_index) and loc.can_have_camp:
                 result.append(LocationActionMoveCamp())
             for job_num in xrange(0, len(loc.jobs)):
@@ -151,10 +164,11 @@ init -1 python:
 
         def add_random_closed_location(self):
             if not self.__closed_locations:
-                return  # Если закрытых не осталось, то просто ничего не делаем
+                return False # Если закрытых не осталось, то просто ничего не делаем
             last_index = len(self.__closed_locations) - 1
             random_index = random.randint(0, last_index)  # Return a random integer N a <= N <= b
             self.locations.append(self.__closed_locations[random_index])
             if random_index < last_index:
                 self.__closed_locations[random_index] = self.__closed_locations[last_index]
             del self.__closed_locations[last_index]
+            return True
