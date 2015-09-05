@@ -5,6 +5,7 @@ import resources
 
 class Character:
     _AP_DEF = 2
+    _RATION_DEF = 1
 
     STORAGE_NONE = 0
     STORAGE_RENT = 1
@@ -19,6 +20,9 @@ class Character:
         self.mind = 3
 
         self.action_points = Character._AP_DEF
+        self.ration = Character._RATION_DEF
+        # чем больше starving тем голоднее
+        self.starving = 0;
 
         self.resources = resources.Resources()
 
@@ -46,14 +50,28 @@ class Character:
                 payment = res[i] / 10
                 if payment < 1:
                     payment = 1
-                res[i] = res[i] - payment
+                res[i] -= payment
 
     def on_new_turn(self, job):
-        if self.action_points > 0 :
+        # сброс непотраченных очков действия
+        if self.action_points > 0:
             self.action_points = 0
+        # потребление еды
+        food = self.resources.get_food()
+        ration = self.ration
+        if food >= ration:
+            self.resources.add_food(-self.ration)
+            self.starving = 0
+        else:
+            self.resources.set_food(0)
+            self.starving += (ration - food)
+        # сброс ресурсов или плата за их хранение
         if self.__storage == Character.STORAGE_NONE:
             self.resources.reset_all_to_zero()
         elif self.__storage == Character.STORAGE_RENT:
             self.pay_storage_rent()
+        # получение оплаты за работу
         job.do_job(self)
+        # TODO за работу могли получить еду. Стоит ли её сразу тут использовать для погашения starving?
+        # добавление очков действия
         self.restore_action_points()

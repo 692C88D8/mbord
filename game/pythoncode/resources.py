@@ -20,19 +20,28 @@ class Resources:
 
     def set_food(self, value):
         self.quantities[Resources.__food_index] = value
-        
+
+    def add_food(self, value):
+        self.quantities[Resources.__food_index] += value
+
     def get_fuel(self):
         return self.quantities[Resources.__fuel_index]
 
     def set_fuel(self, value):
         self.quantities[Resources.__fuel_index] = value
-        
+
+    def add_fuel(self, value):
+        self.quantities[Resources.__fuel_index] += value
+
     def get_drugs(self):
         return self.quantities[Resources.__drugs_index]
 
     def set_drugs(self, value):
         self.quantities[Resources.__drugs_index] = value
-        
+
+    def add_drugs(self, value):
+        self.quantities[Resources.__drugs_index] += value
+
     def get_arms(self):
         return self.quantities[Resources.__arms_index]
 

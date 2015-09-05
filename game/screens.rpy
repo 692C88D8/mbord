@@ -604,6 +604,8 @@ screen scr_map(game):
         text "mind: %s" % char.mind
         text "AP: %s" % char.action_points
         text "Job: %s" % game.get_character_job(char).name
+        if char.starving > 0 :
+            text "Starving!"
         textbutton "Next turn":
             action Function(game.on_new_turn)
     # Список действий справа
