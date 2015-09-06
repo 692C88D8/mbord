@@ -3,7 +3,7 @@
 init -1 python:
     import renpy.exports as renpy
     import renpy.store as store
-    import pythoncode.character as character
+    from pythoncode.character import Character as MB_Character # Character уже есть в RenPy
     import pythoncode.jobs as jobs
     
     #from enum import Enum
@@ -16,7 +16,7 @@ init -1 python:
         
         def __init__(self):
             self.locations_model = LocationsModel()
-            self.player_character = character.Character()
+            self.player_character = MB_Character()
             self.state = GameState.STOPPED
             
         def get_location_name_to_display(self, location_index):

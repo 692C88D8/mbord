@@ -40,6 +40,10 @@ class Character:
     def get_storage(self):
         return self.__storage
 
+    def get_storage_name(self):
+        names = ['None', 'Rent', 'Free']
+        return names[self.__storage]
+
     def restore_action_points(self):
         self.action_points += Character._AP_DEF
 

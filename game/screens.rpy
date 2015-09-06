@@ -602,8 +602,10 @@ screen scr_map(game):
         text "agility: %s" % char.agility
         text "spirit: %s" % char.spirit
         text "mind: %s" % char.mind
+        text "ration: %s" % char.ration
         text "AP: %s" % char.action_points
         text "Job: %s" % game.get_character_job(char).name
+        text "Storage: %s" % char.get_storage_name()
         if char.starving > 0 :
             text "Starving!"
         textbutton "Next turn":
@@ -626,3 +628,34 @@ screen scr_map(game):
     textbutton "Выход!":
         align(0.97, 0.0)
         action [Function(game.set_state, GameState.STOPPED), Return()]
+        
+#init -1 python:
+#    glob_char = None
+#    def update_name(value=""):
+#        global glob_char
+#        glob_char.name = value
+        
+screen scr_char_edit(char):
+    # TODO осилить ввод имени
+    #$ global glob_char
+    #$ glob_char = char
+    frame:
+        has vbox
+        #text "Enter your name:"
+        #input default char.name length 12 changed update_name
+        text "physique: %s" % char.physique
+        bar value FieldValue(char, 'physique', range=5, offset=0, step=1)
+        text "agility: %s" % char.agility
+        bar value FieldValue(char, 'agility', range=5, offset=0, step=1)
+        text "spirit: %s" % char.spirit
+        bar value FieldValue(char, 'spirit', range=5, offset=0, step=1)
+        text "mind: %s" % char.mind
+        bar value FieldValue(char, 'mind', range=5, offset=0, step=1)
+        text "ration: %s" % char.ration
+        bar value FieldValue(char, 'ration', range=5, offset=0, step=1)
+        text "AP: %s" % char.action_points
+        bar value FieldValue(char, 'action_points', range=5, offset=0, step=1)
+        textbutton("Ok"):
+                action Return(True)
+        textbutton("Cancel"):
+                action Return(False)
