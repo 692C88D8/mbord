@@ -43,15 +43,13 @@ init -1 python:
                 return jobs.JobIdle()
             return self.locations_model.locations[character.job_location_index].jobs[character.job_num]
             
-        def spend_player_action_point(self):
-            return self.state
-        
         def new_turn_if_need(self):
             if self.player_character.action_points <= 0 :
                 self.on_new_turn()
             
         def on_new_turn(self):
             pchar = self.player_character
-            job = self.get_character_job(pchar)
-            pchar.on_new_turn(job)
+            pchar.on_new_turn(self)
             
+        def is_player_job_available(self):
+            return self.player_character.get_current_job_state(self.locations_model) == MB_Character.JOB_AVAILABLE

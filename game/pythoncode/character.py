@@ -56,7 +56,8 @@ class Character:
                     payment = 1
                 res[i] -= payment
 
-    def on_new_turn(self, job):
+    def on_new_turn(self, game):
+        job = game.get_character_job(self)
         # сброс непотраченных очков действия
         if self.action_points > 0:
             self.action_points = 0
@@ -74,8 +75,20 @@ class Character:
             self.resources.reset_all_to_zero()
         elif self.__storage == Character.STORAGE_RENT:
             self.pay_storage_rent()
-        # получение оплаты за работу
-        job.do_job(self)
+        # получение оплаты за работу, если локация с ней доступна
+        if self.get_current_job_state(game.locations_model) == Character.JOB_AVAILABLE:
+            job.do_job(self)
         # TODO за работу могли получить еду. Стоит ли её сразу тут использовать для погашения starving?
         # добавление очков действия
         self.restore_action_points()
+
+    JOB_NONE = 0
+    JOB_NOT_AVAILABLE = 1
+    JOB_AVAILABLE = 2
+
+    def get_current_job_state(self, locations_model):
+        if self.job_location_index is None:
+            return Character.JOB_NONE
+        if locations_model.is_location_in_reach(self, self.job_location_index):
+            return Character.JOB_AVAILABLE
+        return Character.JOB_NOT_AVAILABLE

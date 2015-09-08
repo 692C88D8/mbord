@@ -617,7 +617,11 @@ screen scr_map(game):
         text "mind: %s" % char.mind
         text "ration: %s" % char.ration
         text "AP: %s" % char.action_points
-        text "Job: %s" % game.get_character_job(char).name
+        if game.is_player_job_available():
+            text "Job: %s" % game.get_character_job(char).name
+        else:
+            text "Job: %s" % game.get_character_job(char).name:
+                strikethrough True
         text "Storage: %s" % char.get_storage_name()
         if char.starving > 0 :
             text "Starving!"
