@@ -184,5 +184,10 @@ init -1 python:
             if reachable_back > camp_index:
                 reachable_back = camp_index
             reachable_fwd = in_reach_num - reachable_back # сколько локаций доступно с учетом лагеря и после него
+            # Если лагерь близко к концу списка то добавим локаций из начала.
+            past_last_available_index = camp_index + reachable_fwd
+            diff = past_last_available_index - location_num
+            if diff > 0:
+                reachable_back += diff
             # Из-за того что reachable_fwd с учетом лагеря, то получается <, а не <=
             return camp_index - reachable_back <= location_index < camp_index + reachable_fwd
