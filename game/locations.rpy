@@ -125,6 +125,8 @@ init -1 python:
             # доступные локации. Сюда они постепенно переезжают из __closed_locations
             # при вызове _add_random_closed_location()
             # TODO Ващет правильно было бы чтобы игрок знал какие локации для него открыты(__closed_locations убираем, а в персонажа добавляем словарь из индексов и состояния(0 открыто, 1 исследовано))
+            # Или проще одна целочисленная переменная - число исследованных локаций. Неоткрытых всё равно не больше 1.
+            # Но отложим это до того когда будет больше одного персонажа 
             self.locations = [mist]
             self.__closed_locations = [
                 LocationSlums(),
@@ -172,3 +174,15 @@ init -1 python:
                 self.__closed_locations[random_index] = self.__closed_locations[last_index]
             del self.__closed_locations[last_index]
             return True
+            
+        def is_location_in_reach(self, character, location_index):
+            in_reach_num = character.agility + character.spirit
+            location_num = len(self.locations)
+            camp_index = character.camp_location_index
+                
+            reachable_back = int(in_reach_num / 2) # сколько локаций доступно до лагеря
+            if reachable_back > camp_index:
+                reachable_back = camp_index
+            reachable_fwd = in_reach_num - reachable_back # сколько локаций доступно с учетом лагеря и после него
+            # Из-за того что reachable_fwd с учетом лагеря, то получается <, а не <=
+            return camp_index - reachable_back <= location_index < camp_index + reachable_fwd

@@ -559,7 +559,15 @@ init -2:
         selected_hover_color "#cc0"
         insensitive_color "#4448"
 
-
+    style button_not_active:
+        is default
+        size 12
+        idle_color "#6666"
+        hover_color "#6666"
+        selected_idle_color "#6666"
+        selected_hover_color "#6666"
+        insensitive_color "#6666"
+        
 screen scr_map(game):
     # Информация сверху
     frame:
@@ -586,8 +594,13 @@ screen scr_map(game):
         for location in game.locations_model.locations:
             $ actions_list = game.locations_model.get_location_actions(game.player_character, i)
             $ location_name = game.get_location_name_to_display(i)
-            textbutton(location_name):
-                action Function(game.locations_model.set_selected_location_index, i)
+            if game.locations_model.is_location_in_reach(game.player_character, i) :
+                textbutton(location_name):
+                    action Function(game.locations_model.set_selected_location_index, i)
+            else:
+                textbutton(location_name):
+                    style "button_not_active"
+                    action Function(game.locations_model.set_selected_location_index, i)
             $ i = i + 1
     # Информация посередине
     frame:
@@ -619,9 +632,15 @@ screen scr_map(game):
         has vbox
         $ loc_index = game.locations_model.selected_location_index
         $ actions = game.locations_model.get_location_actions(game.player_character, loc_index)
-        for action in actions:
-            textbutton(action.name):
-                action Function(action.do_action, game.player_character, game, loc_index)
+        if game.locations_model.is_location_in_reach(game.player_character, loc_index) :
+            for action in actions:
+                textbutton(action.name):
+                    action Function(action.do_action, game.player_character, game, loc_index)
+        else:
+            for action in actions:
+                textbutton(action.name):
+                    style "button_not_active"
+            
     # Текст с описанием внизу того на что наведен курсор мыши
     #TODO
     
