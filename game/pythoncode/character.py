@@ -48,13 +48,14 @@ class Character:
         self.action_points += Character._AP_DEF
 
     def pay_storage_rent(self):
-        res = self.resources.quantities
+        res = self.resources.to_list()
         for i in xrange(0, len(res)):
             if res[i] > 0:
-                payment = res[i] / 10
+                payment = int(res[i] / 10)
                 if payment < 1:
                     payment = 1
                 res[i] -= payment
+        self.resources.from_list(res)
 
     def on_new_turn(self, game):
         job = game.get_character_job(self)
@@ -62,13 +63,13 @@ class Character:
         if self.action_points > 0:
             self.action_points = 0
         # потребление еды
-        food = self.resources.get_food()
+        food = self.resources.food
         ration = self.ration
         if food >= ration:
-            self.resources.add_food(-self.ration)
+            self.resources.food -= self.ration
             self.starving = 0
         else:
-            self.resources.set_food(0)
+            self.resources.food = 0
             self.starving += (ration - food)
         # сброс ресурсов или плата за их хранение
         if self.__storage == Character.STORAGE_NONE:

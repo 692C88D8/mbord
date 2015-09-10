@@ -1,9 +1,8 @@
-﻿# This file is in the public domain. Feel free to modify it as a basis
-# for your own screens.
-
-# Note that many of these screens may be given additional arguments in the
-# future. The use of **kwargs in the parameter list ensures your code will
-# work in the future.
+﻿
+init python:
+      from pythoncode.resources import Resources
+      from pythoncode.utils import *
+      
 
 ##############################################################################
 # Say
@@ -577,12 +576,12 @@ screen scr_map(game):
         has hbox:
             spacing 10
             $ res = game.player_character.resources
-            text "food: %s" % res.get_food()
-            text "fuel: %s" % res.get_fuel()
-            text "drugs: %s" % res.get_drugs()
-            text "arms: %s" % res.get_arms()
-            text "tools: %s" % res.get_tools()
-            text "material: %s" % res.get_material()
+            text "food: %s" % res.food
+            text "fuel: %s" % res.fuel
+            text "drugs: %s" % res.drugs
+            text "arms: %s" % res.arms
+            text "tools: %s" % res.tools
+            text "material: %s" % res.material
     # Список локаций слева
     frame:
         xpos 0
@@ -680,5 +679,38 @@ screen scr_char_edit(char):
         bar value FieldValue(char, 'action_points', range=5, offset=0, step=1)
         textbutton("Ok"):
                 action Return(True)
+        textbutton("Cancel"):
+                action Return(False)
+
+
+screen scr_buy_food(in_resources_for_trade, out_resources_to_sell):
+    zorder 1
+    modal True
+    frame:
+        has vbox
+        if in_resources_for_trade.fuel > 0:
+            text "Sell fuel: %d" % out_resources_to_sell.fuel
+            bar value FieldValue(out_resources_to_sell, 'fuel', range=in_resources_for_trade.fuel, offset=0, step=1)
+        if in_resources_for_trade.drugs > 0:
+            text "Sell drugs: %d" % out_resources_to_sell.drugs
+            bar value FieldValue(out_resources_to_sell, 'drugs', range=in_resources_for_trade.drugs, offset=0, step=1)
+        if in_resources_for_trade.arms > 0:
+            text "Sell arms: %d" % out_resources_to_sell.arms
+            bar value FieldValue(out_resources_to_sell, 'arms', range=in_resources_for_trade.arms, offset=0, step=1)
+        if in_resources_for_trade.tools > 0:
+            text "Sell tools: %d" % out_resources_to_sell.tools
+            bar value FieldValue(out_resources_to_sell, 'tools', range=in_resources_for_trade.tools, offset=0, step=1)
+        if in_resources_for_trade.material > 0:
+            text "Sell material: %d" % out_resources_to_sell.material
+            bar value FieldValue(out_resources_to_sell, 'material', range=in_resources_for_trade.material, offset=0, step=1)
+        $ food_buy_num = out_resources_to_sell.get_can_buy_number()
+        text "Buy food: %d" % food_buy_num
+        if food_buy_num > 0 and is_whole_number(food_buy_num):
+            textbutton("Trade"):
+                action Return(True)
+        else:
+            textbutton("Trade"):
+                style "button_not_active"
+        
         textbutton("Cancel"):
                 action Return(False)

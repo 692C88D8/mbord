@@ -2,77 +2,54 @@
 
 
 class Resources:
-    __food_index = 0
-    __fuel_index = 1
-    __drugs_index = 2
-    __arms_index = 3
-    __tools_index = 4
-    __material_index = 5
 
     def __init__(self, food = 0, fuel = 0, drugs = 0, arms = 0, tools = 0, material = 0):
-        self.quantities = [food, fuel, drugs, arms, tools, material]
-
-# Копипаст то дальше какой лютый. А хочется иметь простой доступ как отдельному ресуру, так и массиву в целом
-# чтобы складывать, вычитать и т.п. В Сях я бы макрос сделал, а как быть в питоне не понятно.
-
-    def get_food(self):
-        return self.quantities[Resources.__food_index]
-
-    def set_food(self, value):
-        self.quantities[Resources.__food_index] = value
-
-    def add_food(self, value):
-        self.quantities[Resources.__food_index] += value
-
-    def get_fuel(self):
-        return self.quantities[Resources.__fuel_index]
-
-    def set_fuel(self, value):
-        self.quantities[Resources.__fuel_index] = value
-
-    def add_fuel(self, value):
-        self.quantities[Resources.__fuel_index] += value
-
-    def get_drugs(self):
-        return self.quantities[Resources.__drugs_index]
-
-    def set_drugs(self, value):
-        self.quantities[Resources.__drugs_index] = value
-
-    def add_drugs(self, value):
-        self.quantities[Resources.__drugs_index] += value
-
-    def get_arms(self):
-        return self.quantities[Resources.__arms_index]
-
-    def set_arms(self, value):
-        self.quantities[Resources.__arms_index] = value
-
-    def add_arms(self, value):
-        self.quantities[Resources.__arms_index] += value
-
-    def get_tools(self):
-        return self.quantities[Resources.__tools_index]
-
-    def set_tools(self, value):
-        self.quantities[Resources.__tools_index] = value
-
-    def add_tools(self, value):
-        self.quantities[Resources.__tools_index] += value
-
-    def get_material(self):
-        return self.quantities[Resources.__material_index]
-
-    def set_material(self, value):
-        self.quantities[Resources.__material_index] = value
-
-    def add_material(self, value):
-        self.quantities[Resources.__material_index] += value
+        self.food = food
+        self.fuel = fuel
+        self.drugs = drugs
+        self.arms = arms
+        self.tools = tools
+        self.material = material
 
     def _set_all(self, value):
-        for i in xrange(0, len(self.quantities)):
-            self.quantities[i] = value
+        self.food = value
+        self.fuel = value
+        self.drugs = value
+        self.arms = value
+        self.tools = value
+        self.material = value
 
     def reset_all_to_zero(self):
         self._set_all(0)
 
+    def subtract(self, sub_resources):
+        self.food -= sub_resources.food
+        self.fuel -= sub_resources.fuel
+        self.drugs -= sub_resources.drugs
+        self.arms -= sub_resources.arms
+        self.tools -= sub_resources.tools
+        self.material -= sub_resources.material
+    
+    def summary_except_food(self):
+        return self.fuel + self.drugs + self.arms + self.tools + self.material
+    
+    def summary(self):
+        return self.food + self.fuel + self.drugs + self.arms + self.tools + self.material
+    
+    def get_can_buy_number(self):
+        # По тому целое ли число определяется можно ли проводить сделку. Поэтому преобразуем во float по необходимости
+        sum = self.summary()
+        if sum % 2 == 0:
+            return sum / 2
+        return float(sum) / 2
+        
+    def to_list(self):
+        return [self.food, self.fuel, self.drugs, self.arms, self.tools, self.material]
+        
+    def from_list(self, list):
+        self.food = list[0]
+        self.fuel = list[1]
+        self.drugs = list[2]
+        self.arms = list[3]
+        self.tools = list[4]
+        self.material = list[5]

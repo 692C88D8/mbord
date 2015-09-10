@@ -29,7 +29,7 @@ class JobFoodThief(_JobBaseClass):
 
     def do_job(self, character):
         if 0 == random.randint(0, 1):
-            character.resources.add_food(character.mind + character.agility)
+            character.resources.food += (character.mind + character.agility)
 
 
 class JobFoodBeggar(_JobBaseClass):
@@ -37,7 +37,7 @@ class JobFoodBeggar(_JobBaseClass):
         super(JobFoodBeggar, self).__init__("Begg for food", "TODO")
 
     def do_job(self, character):
-        character.resources.add_food(character.spirit)
+        character.resources.food += character.spirit
 
 
 class JobFoodWhore(_JobBaseClass):
@@ -45,7 +45,7 @@ class JobFoodWhore(_JobBaseClass):
         super(JobFoodWhore, self).__init__("Sex for food", "TODO")
 
     def do_job(self, character):
-        character.resources.add_food(character.agility)
+        character.resources.food += character.agility
 
 
 class JobScavenger(_JobBaseClass):
@@ -58,15 +58,15 @@ class JobScavenger(_JobBaseClass):
         # Сделаю тупо на if хорошо их не очень много
         rnd = random.randint(0, 4)
         if 0 == rnd:
-            character.resources.add_fuel(val)
+            character.resources.fuel += val
         elif 1 == rnd:
-            character.resources.add_drugs(val)
+            character.resources.drugs += val
         elif 2 == rnd:
-            character.resources.add_arms(val)
+            character.resources.arms += val
         elif 3 == rnd:
-            character.resources.add_tools(val)
+            character.resources.tools += val
         else:
-            character.resources.add_material(val)
+            character.resources.material += val
 
 
 class JobFuelExtractor(_JobBaseClass):
@@ -74,7 +74,7 @@ class JobFuelExtractor(_JobBaseClass):
         super(JobFuelExtractor, self).__init__("Fuel extraction", "TODO")
 
     def do_job(self, character):
-        character.resources.add_fuel(character.agility + character.physique)
+        character.resources.fuel += (character.agility + character.physique)
 
 
 class JobWoodGathering(_JobBaseClass):
@@ -82,7 +82,7 @@ class JobWoodGathering(_JobBaseClass):
         super(JobWoodGathering, self).__init__("Wood gathering", "TODO")
 
     def do_job(self, character):
-        character.resources.add_fuel(character.agility + character.physique)
+        character.resources.fuel += (character.agility + character.physique)
 
 
 class JobHerbalism(_JobBaseClass):
@@ -90,7 +90,7 @@ class JobHerbalism(_JobBaseClass):
         super(JobHerbalism, self).__init__("Herbalism", "TODO")
 
     def do_job(self, character):
-        character.resources.add_drugs(character.agility + character.mind)
+        character.resources.drugs += (character.agility + character.mind)
 
 
 class JobMarauder(_JobBaseClass):
@@ -98,7 +98,7 @@ class JobMarauder(_JobBaseClass):
         super(JobMarauder, self).__init__("Marauding", "TODO")
 
     def do_job(self, character):
-        character.resources.add_material(character.agility + character.physique)
+        character.resources.material += (character.agility + character.physique)
 
 
 class JobToolScavenger(_JobBaseClass):
@@ -106,7 +106,7 @@ class JobToolScavenger(_JobBaseClass):
         super(JobToolScavenger, self).__init__("Scavenging tools", "TODO")
 
     def do_job(self, character):
-        character.resources.add_tools(character.agility + character.physique)
+        character.resources.tools += (character.agility + character.physique)
 
 
 class JobDemolisher(_JobBaseClass):
@@ -114,7 +114,7 @@ class JobDemolisher(_JobBaseClass):
         super(JobDemolisher, self).__init__("Demolishing", "TODO")
 
     def do_job(self, character):
-        character.resources.add_material(character.agility + character.physique)
+        character.resources.material += (character.agility + character.physique)
 
 
 class JobWeaponLooter(_JobBaseClass):
@@ -122,4 +122,4 @@ class JobWeaponLooter(_JobBaseClass):
         super(JobWeaponLooter, self).__init__("Looting", "TODO")
 
     def do_job(self, character):
-        character.resources.add_arms(character.agility + character.physique)
+        character.resources.arms += (character.agility + character.physique)

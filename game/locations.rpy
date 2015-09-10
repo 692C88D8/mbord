@@ -45,6 +45,11 @@ init -1 python:
         def __init__(self):
             super(LocationMarket, self).__init__("Market", "TODO", True)
 
+        def get_specific_actions(self, character):
+            if character.resources.summary_except_food() < 2:
+                return []
+            return [LocationActionBuyFood()]
+            
 
     class LocationDepository(_LocationBaseClass):
         def __init__(self):

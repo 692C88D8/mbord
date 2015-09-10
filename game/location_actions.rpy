@@ -1,8 +1,13 @@
 # coding=utf-8
 
+label lbl_buyfood(in_resources_for_trade, out_resources_to_sell):
+    call screen scr_buy_food(in_resources_for_trade, out_resources_to_sell)
+    return (_return)
+
 init -1 python:
 
     from pythoncode.character import Character as MB_Character # Character уже есть в RenPy
+    from pythoncode.resources import Resources
     
     class _LocationActionBaseClass(object):
         def __init__(self, name, description, spend_action_point):
@@ -71,12 +76,19 @@ init -1 python:
             return _name
     
     
-    class LocationActionTradeResources(_LocationActionBaseClass):
+    class LocationActionBuyFood(_LocationActionBaseClass):
         def __init__(self):
-            super(LocationActionTradeResources, self).__init__("Trade resources", "TODO", True)
+            super(LocationActionBuyFood, self).__init__("Buy food", "TODO", False)
 
         def do_action(self, character, game, locaton_index):
-            raise Exception('TODO trade not implemented')
+            res_to_sell = Resources()
+            res_to_sell.food = 0
+            #ret = False
+            #renpy.show_screen("scr_buy_food", character.resources, res_to_sell, ret)
+            ret = renpy.call_in_new_context("lbl_buyfood", character.resources, res_to_sell)
+            if ret:
+                character.resources.subtract(res_to_sell)
+                character.resources.food += int(res_to_sell.get_can_buy_number())
             return self.__common_action_result(character, game, locaton_index)
     
             
