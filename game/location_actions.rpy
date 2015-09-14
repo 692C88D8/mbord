@@ -36,7 +36,7 @@ init -1 python:
             
     class LocationActionMoveCamp(_LocationActionBaseClass):
         def __init__(self):
-            super(LocationActionMoveCamp, self).__init__("Move camp", "TODO", True)
+            super(LocationActionMoveCamp, self).__init__("Move camp", "Move camp here", True)
 
         def do_action(self, character, game, locaton_index):
             if not game.locations_model.locations[locaton_index].can_have_camp:
@@ -47,7 +47,7 @@ init -1 python:
             
     class LocationActionExplore(_LocationActionBaseClass):
         def __init__(self):
-            super(LocationActionExplore, self).__init__("Explore", "TODO", True)
+            super(LocationActionExplore, self).__init__("Explore", "Explore location", True)
 
         def do_action(self, character, game, locaton_index):
             game.locations_model.locations[locaton_index].explored = True
@@ -78,7 +78,7 @@ init -1 python:
     
     class LocationActionBuyFood(_LocationActionBaseClass):
         def __init__(self):
-            super(LocationActionBuyFood, self).__init__("Buy food", "TODO", False)
+            super(LocationActionBuyFood, self).__init__("Buy food", "Trade other resources for food", False)
 
         def do_action(self, character, game, locaton_index):
             res_to_sell = Resources()
@@ -94,7 +94,7 @@ init -1 python:
             
     class LocationActionRentStorage(_LocationActionBaseClass):
         def __init__(self):
-            super(LocationActionRentStorage, self).__init__("Rent storage", "TODO", True)
+            super(LocationActionRentStorage, self).__init__("Rent storage", "Rent a storage for 10% of your resources", True)
 
         def do_action(self, character, game, locaton_index):
             character.set_storage(MB_Character.STORAGE_RENT)
@@ -103,7 +103,7 @@ init -1 python:
             
     class LocationActionNoMoreRentStorage(_LocationActionBaseClass):
         def __init__(self):
-            super(LocationActionNoMoreRentStorage, self).__init__("No more rent storage", "TODO", True)
+            super(LocationActionNoMoreRentStorage, self).__init__("No more rent storage", "No more rent", True)
 
         def do_action(self, character, game, locaton_index):
             character.set_storage(MB_Character.STORAGE_NONE)

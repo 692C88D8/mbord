@@ -568,6 +568,8 @@ init -2:
         insensitive_color "#6666"
         
 screen scr_map(game):
+    default tooltip = Tooltip("Tooltips here.")
+    
     # Информация сверху
     frame:
         xpos 0
@@ -593,13 +595,16 @@ screen scr_map(game):
         for location in game.locations_model.locations:
             $ actions_list = game.locations_model.get_location_actions(game.player_character, i)
             $ location_name = game.get_location_name_to_display(i)
+            $ location_description = game.get_location_description(i)
             if game.locations_model.is_location_in_reach(game.player_character, i) :
                 textbutton(location_name):
                     action Function(game.locations_model.set_selected_location_index, i)
+                    hovered tooltip.Action(location_description)
             else:
                 textbutton(location_name):
                     style "button_not_active"
                     action Function(game.locations_model.set_selected_location_index, i)
+                    hovered tooltip.Action(location_description)
             $ i = i + 1
     # Информация посередине
     frame:
@@ -639,14 +644,20 @@ screen scr_map(game):
             for action in actions:
                 textbutton(action.name):
                     action Function(action.do_action, game.player_character, game, loc_index)
+                    hovered tooltip.Action(action.description)
         else:
             for action in actions:
                 textbutton(action.name):
                     style "button_not_active"
+                    hovered tooltip.Action(action.description)
             
-    # Текст с описанием внизу того на что наведен курсор мыши
-    #TODO
-    
+    # Текст внизу с описанием того, на что наведен курсор мыши
+    frame:
+        ypos 545
+        xysize (800, 150)
+        align(0.0, 0.0)
+        text (u"{=content_text}{size=24}%s" % tooltip.value)
+    # Кнопка для выхода
     textbutton "Выход!":
         align(0.97, 0.0)
         action [Function(game.set_state, GameState.STOPPED), Return()]

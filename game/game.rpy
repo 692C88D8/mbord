@@ -31,6 +31,9 @@ init -1 python:
             if len(loc_suffix) > 0:
                 name = name + " " + loc_suffix
             return name
+        
+        def get_location_description(self, location_index):
+            return self.locations_model.locations[location_index].description
             
         def set_state(self, state):
             self.state = state

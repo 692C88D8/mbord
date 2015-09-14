@@ -11,6 +11,7 @@ init -1 python:
         def __init__(self, name, description, can_have_camp):
             self._name = name
             self._description = description
+            # TODO возможно списку исследованных локаций стоит переехать в персонажа
             self.explored = False  # Для неисследованных недоступны имена, описание и действия(кроме исследования)
             self.can_have_camp = can_have_camp
             self.jobs = []
@@ -28,22 +29,22 @@ init -1 python:
         def description(self):
             if self.explored:
                 return self._description
-            return "???"
+            return "Unknown location"
 
 
     class LocationThinMist(_LocationBaseClass):
         def __init__(self):
-            super(LocationThinMist, self).__init__("Thin mist", "TODO", False)
+            super(LocationThinMist, self).__init__("Thin mist", "Starting location", False)
 
 
     class LocationSlums(_LocationBaseClass):
         def __init__(self):
-            super(LocationSlums, self).__init__("Slums", "TODO", True)
+            super(LocationSlums, self).__init__("Slums", "Here you can steal food", True)
             self.jobs = [JobFoodThief()]
 
     class LocationMarket(_LocationBaseClass):
         def __init__(self):
-            super(LocationMarket, self).__init__("Market", "TODO", True)
+            super(LocationMarket, self).__init__("Market", "Here you can buy food", True)
 
         def get_specific_actions(self, character):
             if character.resources.summary_except_food() < 2:
@@ -53,7 +54,7 @@ init -1 python:
 
     class LocationDepository(_LocationBaseClass):
         def __init__(self):
-            super(LocationDepository, self).__init__("Depository", "TODO", True)
+            super(LocationDepository, self).__init__("Depository", "Here you can rent storage", True)
 
         def get_specific_actions(self, character):
             storage_type = character.get_storage()
@@ -65,59 +66,59 @@ init -1 python:
 
     class LocationCharityMission(_LocationBaseClass):
         def __init__(self):
-            super(LocationCharityMission, self).__init__("Charity Mission", "TODO", True)
+            super(LocationCharityMission, self).__init__("Charity Mission", "Here you can begg for food", True)
             self.jobs = [JobFoodBeggar()]
 
             
     class LocationOutpost(_LocationBaseClass):
         def __init__(self):
-            super(LocationOutpost, self).__init__("Outpost", "TODO", True)
+            super(LocationOutpost, self).__init__("Outpost", "You can be a whore here", True)
             self.jobs = [JobFoodWhore()]
 
 
     class LocationSlaverEncampment(_LocationBaseClass):
         def __init__(self):
-            super(LocationSlaverEncampment, self).__init__("Slaver Encampment", "TODO", True)
+            super(LocationSlaverEncampment, self).__init__("Slaver Encampment", "Nothing to do here for now", True)
 
 
     class LocationRuinedFortifications(_LocationBaseClass):
         def __init__(self):
-            super(LocationRuinedFortifications, self).__init__("Ruined Fortifications", "TODO", True)
+            super(LocationRuinedFortifications, self).__init__("Ruined Fortifications", "Nothing to do here for now", True)
 
 
     class LocationJunkyard(_LocationBaseClass):
         def __init__(self):
-            super(LocationJunkyard, self).__init__("Junk yard", "TODO", True)
+            super(LocationJunkyard, self).__init__("Junk yard", "You can scavange some resources here", True)
             self.jobs = [JobScavenger()]
 
             
     class LocationMine(_LocationBaseClass):
         def __init__(self):
-            super(LocationMine, self).__init__("Mine", "TODO", True)
+            super(LocationMine, self).__init__("Mine", "You can extract fuel here", True)
             self.jobs = [JobFuelExtractor()]
 
             
     class LocationDyingGrove(_LocationBaseClass):
         def __init__(self):
-            super(LocationDyingGrove, self).__init__("Dying grove", "TODO", True)
+            super(LocationDyingGrove, self).__init__("Dying grove", "You can gather wood or herbs here", True)
             self.jobs = [JobWoodGathering(), JobHerbalism()]
             
 
     class LocationRuinedHouses(_LocationBaseClass):
         def __init__(self):
-            super(LocationRuinedHouses, self).__init__("Ruined houses", "TODO", True)
+            super(LocationRuinedHouses, self).__init__("Ruined houses", "You can get some materials here", True)
             self.jobs = [JobMarauder()]
 
 
     class LocationRuinedFactory(_LocationBaseClass):
         def __init__(self):
-            super(LocationRuinedFactory, self).__init__("Ruined factory", "TODO", True)
+            super(LocationRuinedFactory, self).__init__("Ruined factory", "You can scavange some tools here", True)
             self.jobs = [JobToolScavenger()]
 
 
     class LocationGrimBattlefield(_LocationBaseClass):
         def __init__(self):
-            super(LocationGrimBattlefield, self).__init__("Grim battlefield", "TODO", True)
+            super(LocationGrimBattlefield, self).__init__("Grim battlefield", "You can loot some weapons here", True)
             self.jobs = [JobWeaponLooter()]
 
 
